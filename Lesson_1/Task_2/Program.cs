@@ -3,10 +3,12 @@ namespace Task_2
 {
     class Program
     {
-        /// O(1 + N*N*N + 1)
-        /// O(2 + N^3)
-        /// В соответствии с правилом 3 методички сокращаем:
-        /// O(N^3)
+        static void Main()
+        {
+            //Тут просто имитация каких-то действий.
+            int[] array = new int[] { 1, 2, 3, 5, 34 };
+            int result = StrangeSum(array);
+        }
 
         public static int StrangeSum(int[] inputArray)
         {
@@ -30,5 +32,11 @@ namespace Task_2
             }
             return sum;     //O(1)
         }
+
+        /// O(1 + N*N*N + 1)
+        /// O(2 + N^3)
+        /// В соответствии с правилом 3 методички сокращаем:
+        /// 
+        /// O(N^3)  <- ОТВЕТ НА ЗАДАНИЕ
     }
 }

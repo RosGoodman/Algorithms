@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Task_1;
 
-namespace Task1_UnitTest
+namespace Task1_UnitTests
 {
     [TestClass]
     public class Task1_UnitTest
