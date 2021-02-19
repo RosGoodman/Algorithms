@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace Task_1
 {
@@ -6,6 +6,7 @@ namespace Task_1
     {
         static void Main(string[] args)
         {
+            
         }
     }
 }
