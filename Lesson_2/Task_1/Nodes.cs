@@ -10,10 +10,18 @@ namespace Task_1
         /// <param name="value">Значение ноды.</param>
         public void AddNode(int value)
         {
-            Node node = _lastNode;
-            Node newNode = new Node(value, null, node);
-            node.NextNode = newNode;
-            _lastNode = newNode;
+            if(_firstNode != _lastNode)
+            {
+                Node node = _lastNode;
+                Node newNode = new Node(value, null, node);
+                node.NextNode = newNode;
+                _lastNode = newNode;
+            }
+            else
+            {
+                Node node = new Node(value, null, null);
+                _firstNode = node;
+            }
         }
 
         /// <summary>Вставить ноду после указанной.</summary>
