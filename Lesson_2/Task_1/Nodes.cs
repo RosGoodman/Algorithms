@@ -80,12 +80,41 @@ namespace Task_1
             }
         }
 
-        /// <summary>Удалить укащанную ноду.</summary>
+        /// <summary>Удалить указанную ноду.</summary>
         /// <param name="node">Удаляемая нода.</param>
         public void RemoveNode(Node node)
         {
             node.NextNode.PrevNode = node.PrevNode;
             node.PrevNode.NextNode = node.NextNode;
         }
+
+        #region Метод для упрощения тестов.
+
+        //Метод создан только для тестов
+
+        /// <summary>Получить ноду по порядковому номеру.</summary>
+        /// <param name="index">Порядковый номер.</param>
+        /// <returns>Найденная нода.</returns>
+        public Node GetNodeByIndex(int index)
+        {
+            Node node = _firstNode;
+            while (index != 0)
+            {
+                if (node.NextNode != null)
+                {
+                    node = node.NextNode;
+                    index--;
+                }
+                else
+                    break;
+
+                if (index == 0)
+                {
+                    return node;
+                }
+            }
+            return node;
+        }
+        #endregion
     }
 }
