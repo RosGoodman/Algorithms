@@ -1,7 +1,7 @@
 ﻿
 namespace Task_1
 {
-    class Nodes : ILinkedList
+    public class Nodes : ILinkedList
     {
         private Node _lastNode;
         private Node _firstNode;

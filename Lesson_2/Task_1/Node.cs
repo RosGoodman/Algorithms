@@ -2,7 +2,7 @@
 namespace Task_1
 {
     /// <summary>Класс описывающий ноду двухсвязного списка.</summary>
-    class Node
+    public class Node
     {
         public int Value { get; set; }
         public Node NextNode { get; set; }
