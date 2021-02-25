@@ -6,6 +6,9 @@ namespace Task2
     {
         static void Main(string[] args)
         {
+            //асимптотическая сложность - log n.
+            //т.к. с каждой итерацией цикла размер входящих данных уменьшается в 2 раза
+            
             int[] array = new int[] { 1, 3, 6, 8, 34, 43, 56, 567, 2456 };
             int numb = 3;
             int indexNumb = BinarySearch(array, 0, array.Length, numb);
