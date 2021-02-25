@@ -10,7 +10,7 @@ namespace Task_1
         /// <param name="value">Значение ноды.</param>
         public void AddNode(int value)
         {
-            if(_firstNode != _lastNode)
+            if(_firstNode != null)
             {
                 Node node = _lastNode;
                 Node newNode = new Node(value, null, node);
@@ -21,6 +21,7 @@ namespace Task_1
             {
                 Node node = new Node(value, null, null);
                 _firstNode = node;
+                _lastNode = node;
             }
         }
 
@@ -29,9 +30,14 @@ namespace Task_1
         /// <param name="value">Значение новой ноды.</param>
         public void AddNodeAfter(Node node, int value)
         {
-            Node newNode = new Node(value, node.NextNode, node.PrevNode);
+            Node newNode = new Node(value, node.NextNode, node);
             Node nextNode = node.NextNode;
-            nextNode.PrevNode = newNode;
+
+            if (nextNode != null)
+                nextNode.PrevNode = newNode;
+            else
+                _lastNode = newNode;
+
             node.NextNode = newNode;
         }
 
@@ -42,6 +48,8 @@ namespace Task_1
         {
             Node searchNode = null;
             Node node = _firstNode;
+            if (node == null) return node;
+
             while(node.Value != searchValue)
             {
                 if (node.NextNode != null)
@@ -57,7 +65,10 @@ namespace Task_1
         public int GetCount()
         {
             Node node = _firstNode;
-            int count = 0;
+            int count = 1;
+
+            if (node == null) return 0;
+
             while(node.NextNode != null)
             {
                 node = node.NextNode;
@@ -71,8 +82,15 @@ namespace Task_1
         public void RemoveNode(int index)
         {
             Node node = _firstNode;
-            while(index != 0)
+            if (node == null) return;
+
+            do
             {
+                if (index <= 0)
+                {
+                    RemoveNode(node);
+                }
+
                 if (node.NextNode != null)
                 {
                     node = node.NextNode;
@@ -80,20 +98,23 @@ namespace Task_1
                 }
                 else
                     break;
-
-                if(index == 0)
-                {
-                    RemoveNode(node);
-                }
-            }
+            } while (index >= 0);
         }
 
         /// <summary>Удалить указанную ноду.</summary>
         /// <param name="node">Удаляемая нода.</param>
         public void RemoveNode(Node node)
         {
-            node.NextNode.PrevNode = node.PrevNode;
-            node.PrevNode.NextNode = node.NextNode;
+            if (node == _lastNode)
+                _lastNode = node.PrevNode;
+            if (node == _firstNode)
+                _firstNode = node.NextNode;
+
+            if(node.NextNode != null)
+                node.NextNode.PrevNode = node.PrevNode;
+
+            if (node.PrevNode != null)
+                node.PrevNode.NextNode = node.NextNode;
         }
 
         #region Метод для упрощения тестов.
