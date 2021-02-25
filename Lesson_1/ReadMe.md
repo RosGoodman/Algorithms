@@ -28,12 +28,10 @@ public static int  StrangeSum(int[] inputArray)
                {
                    y = k / j;
                }
-
                sum += inputArray[i] + i + k + j + y;
            }
        }
    }
-
    return sum;
 }
 
