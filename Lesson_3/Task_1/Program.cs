@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Task_1
 {
@@ -10,14 +11,13 @@ namespace Task_1
             float[,] floatArray = Program.FloatCoordinatesGen(count);
         }
 
-        /// <summary></summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
+        /// <summary>Генератор массива координат типа float.</summary>
+        /// <param name="count">Кол-во координат.</param>
+        /// <returns>Сгенерированный массив.</returns>
         private static float[,] FloatCoordinatesGen(int count)
         {
             float[,] floatArray = new float[count, 2];
-            Random random = new Random();
-
+            Random random = new Random((int)DateTime.Now.Ticks);
 
             for (int i = 0; i < count; i++)
             {
