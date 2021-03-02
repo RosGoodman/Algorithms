@@ -25,7 +25,7 @@ namespace Task_1
         /// <summary>Создать список PointClass из массива.</summary>
         /// <param name="floatArray">Массив с координатами.</param>
         /// <returns>Список экземпляров класса.</returns>
-        private static List<PointClass> AddPointsInList(float[,] floatArray)
+        internal static List<PointClass> AddPointsInList(float[,] floatArray)
         {
             List<PointClass> pointClasses = new List<PointClass>();
             PointClass point;

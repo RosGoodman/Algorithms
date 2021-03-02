@@ -1,17 +1,17 @@
 ﻿
 namespace Task_1.Points
 {
-    class PointClass
+    public class PointClass
     {
         private float _x;
         private float _y;
 
-        internal float X
+        public float X
         {
             get { return _x; }
         }
 
-        internal float Y
+        public float Y
         {
             get { return _y; }
         }

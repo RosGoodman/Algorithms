@@ -1,17 +1,17 @@
 ﻿
 namespace Task_1.Points
 {
-    struct PointStructDouble
+    public struct PointStructDouble
     {
         private double _x;
         private double _y;
 
-        internal double X
+        public double X
         {
             get { return _x; }
         }
 
-        internal double Y
+        public double Y
         {
             get { return _y; }
         }

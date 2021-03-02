@@ -3,13 +3,13 @@ using System.Runtime.InteropServices;
 
 namespace Task_1.Points
 {
-    internal class Distance
+    public class Distance
     {
         /// <summary>Получить дистанцию между точками.</summary>
         /// <param name="pointOne">Точка 1.</param>
         /// <param name="pointTwo">Точка 2.</param>
         /// <returns>Дистанция между точками.</returns>
-        internal float GetDistance(PointClass pointOne, PointClass pointTwo)
+        public float GetDistance(PointClass pointOne, PointClass pointTwo)
         {
             float x = pointOne.X - pointTwo.X;
             float y = pointOne.Y - pointTwo.Y;
@@ -20,7 +20,7 @@ namespace Task_1.Points
         /// <param name="pointOne">Точка 1.</param>
         /// <param name="pointTwo">Точка 2.</param>
         /// <returns>Дистанция между точками.</returns>
-        internal double GetDistance(PointStructDouble pointOne, PointStructDouble pointTwo)
+        public double GetDistance(PointStructDouble pointOne, PointStructDouble pointTwo)
         {
             double x = pointOne.X - pointTwo.X;
             double y = pointOne.Y - pointTwo.Y;
@@ -31,7 +31,7 @@ namespace Task_1.Points
         /// <param name="pointOne">Точка 1.</param>
         /// <param name="pointTwo">Точка 2.</param>
         /// <returns>Дистанция между точками.</returns>
-        internal float GetDistance(PointStructFloat pointOne, PointStructFloat pointTwo)
+        public float GetDistance(PointStructFloat pointOne, PointStructFloat pointTwo)
         {
             float x = pointOne.X - pointTwo.X;
             float y = pointOne.Y - pointTwo.Y;
@@ -42,7 +42,7 @@ namespace Task_1.Points
         /// <param name="pointOne">Точка 1.</param>
         /// <param name="pointTwo">Точка 2.</param>
         /// <returns>Дистанция между точками.</returns>
-        internal float GetDistanceNotSqrt(PointStructFloat pointOne, PointStructFloat pointTwo)
+        public float GetDistanceNotSqrt(PointStructFloat pointOne, PointStructFloat pointTwo)
         {
             float x = pointOne.X - pointTwo.X;
             float y = pointOne.Y - pointTwo.Y;

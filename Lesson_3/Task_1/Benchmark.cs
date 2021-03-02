@@ -1,37 +1,27 @@
 ﻿using BenchmarkDotNet.Attributes;
+using System.Collections.Generic;
+using System.Threading;
+using Task_1.Points;
 
 namespace Task_1
 {
     public class Benchmark
     {
-        public Benchmark()
-        {
+        [ParamsSource(nameof(Point1))]
+        public PointClass point1 { get; set; }
 
-        }
-
-        public int SumValueType(int value)
-        {
-            return 9 + value;
-        }
-
-        public int SumRefType(object value)
-        {
-            return 9 + (int)value;
-        }
+        [ParamsSource(nameof(Point2))]
+        public PointClass point2 { get; set; }
 
 
-            [Benchmark]
-        public void TestSum()
-        {
-            SumValueType(99);
-        }
+        public IEnumerable<PointClass> Point1 = new[] { new PointClass(12.2345f, 33.987676f) };
+        public IEnumerable<PointClass> Point2 = new[] { new PointClass(126.2345f, 38.987676f) };
 
         [Benchmark]
-        public void TestSumBoxing()
+        public void TestSum()
         {
-            object x = 99;
-            SumRefType(x);
+            Distance distance = new Distance();
+            distance.GetDistance(point1, point2);
         }
-
     }
 }
