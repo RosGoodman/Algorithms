@@ -3,14 +3,23 @@ namespace Task_1.Points
 {
     struct PointStructFloat
     {
-        private float _floatOX;
-        private float _folatOY;
-        
+        private float _x;
+        private float _y;
 
-        public PointStructFloat(float ox, float oy)
+        internal float X
         {
-            _floatOX = ox;
-            _folatOY = oy;
+            get { return _x; }
+        }
+
+        internal float Y
+        {
+            get { return _y; }
+        }
+
+        public PointStructFloat(float x, float y)
+        {
+            _x = x;
+            _y = y;
         }
 
     }

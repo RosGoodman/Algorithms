@@ -3,14 +3,23 @@ namespace Task_1.Points
 {
     struct PointStructDouble
     {
-        private double _doubleOX;
-        private double _doubleOY;
+        private double _x;
+        private double _y;
 
-
-        public PointStructDouble(double ox, double oy)
+        internal double X
         {
-            _doubleOX = ox;
-            _doubleOY = oy;
+            get { return _x; }
+        }
+
+        internal double Y
+        {
+            get { return _y; }
+        }
+
+        public PointStructDouble(double x, double y)
+        {
+            _x = x;
+            _y = y;
         }
     }
 }
