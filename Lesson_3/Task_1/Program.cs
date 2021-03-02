@@ -1,5 +1,5 @@
-﻿
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
+using System;
 using System.Collections.Generic;
 using Task_1.Points;
 
@@ -19,6 +19,7 @@ namespace Task_1
             List<PointStructFloat> pointFloatFloat = AddPointsStructInList(floatArray);
 
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
+            Console.ReadLine();
         }
 
         /// <summary>Создать список PointClass из массива.</summary>

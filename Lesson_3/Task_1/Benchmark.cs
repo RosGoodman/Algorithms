@@ -2,9 +2,25 @@
 
 namespace Task_1
 {
-    class Benchmark
+    public class Benchmark
     {
-        [Benchmark]
+        public Benchmark()
+        {
+
+        }
+
+        public int SumValueType(int value)
+        {
+            return 9 + value;
+        }
+
+        public int SumRefType(object value)
+        {
+            return 9 + (int)value;
+        }
+
+
+            [Benchmark]
         public void TestSum()
         {
             SumValueType(99);
