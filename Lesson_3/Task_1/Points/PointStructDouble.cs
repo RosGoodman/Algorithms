@@ -1,7 +1,7 @@
 ﻿
 namespace Task_1.Points
 {
-    public struct PointStructDouble
+    public class PointStructDouble
     {
         private double _x;
         private double _y;
