@@ -38,6 +38,8 @@ namespace Task_1.Points
             return MathF.Sqrt((x * x) + (y * y));
         }
 
+        #region GetDistanceNotSqrt
+
         /// <summary>Получить дистанцию между точками.</summary>
         /// <param name="pointOne">Точка 1.</param>
         /// <param name="pointTwo">Точка 2.</param>
@@ -71,5 +73,6 @@ namespace Task_1.Points
             public float f;
         }
 
+        #endregion
     }
 }
