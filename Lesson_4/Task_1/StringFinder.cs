@@ -1,7 +1,7 @@
 ﻿
 namespace Task_1
 {
-    class StringFinder
+    internal class StringFinder
     {
         /// <summary>Найти строку в массиве.</summary>
         /// <param name="str">Искомая строка.</param>
