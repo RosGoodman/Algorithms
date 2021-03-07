@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Task_1
 {
-    internal class StringGenerator
+    public class StringGenerator
     {
         private Random _random = new Random(Environment.TickCount);
 
@@ -12,7 +12,7 @@ namespace Task_1
         /// <param name="count">Количество строк.</param>
         /// <param name="legth">Количество символов.</param>
         /// <returns>Массив строк.</returns>
-        internal string[] GetRandomStringArray(int count, int length)
+        public string[] GetRandomStringArray(int count, int length)
         {
             string[] str = new string[count];
 
@@ -20,14 +20,13 @@ namespace Task_1
             {
                 str[i] = GetRandomString(length); ;
             }
-
             return str;
         }
 
         /// <summary>Получить строку рандомных символов указанной длины.</summary>
         /// <param name="length">Длина строки.</param>
         /// <returns>Сгенерированная строка.</returns>
-        internal string GetRandomString(int length)
+        public string GetRandomString(int length)
         {
             string chars = "0123456789abcdefghijklmnopqrstuvwxyz";
             StringBuilder builder = new StringBuilder(length);
@@ -43,14 +42,13 @@ namespace Task_1
         /// <param name="count">Кол-во строк.</param>
         /// <param name="length">Длина строк.</param>
         /// <returns>Хэш-таблица.</returns>
-        internal HashSet<string> GetHashSet(int count, int length)
+        public HashSet<string> GetHashSet(int count, int length)
         {
-            string[] strArray = GetRandomStringArray(count, length);
             HashSet<string> hashSet = new HashSet<string>();
 
-            for (int i = 0; i < count; i++)
+            while(hashSet.Count < count)
             {
-                hashSet.Add(strArray[i]);
+                hashSet.Add(GetRandomString(length));
             }
             return hashSet;
         }
