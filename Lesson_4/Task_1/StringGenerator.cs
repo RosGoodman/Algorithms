@@ -38,7 +38,7 @@ namespace Task_1
             return builder.ToString();
         }
 
-        /// <summary>Получить хэш-таблицу из массива строк.</summary>
+        /// <summary>Получить хэш-таблицу из указанного кол-ва строк.</summary>
         /// <param name="count">Кол-во строк.</param>
         /// <param name="length">Длина строк.</param>
         /// <returns>Хэш-таблица.</returns>
