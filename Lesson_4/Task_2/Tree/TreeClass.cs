@@ -6,6 +6,7 @@ namespace Task_2.Tree
     public class TreeClass : ITree
     {
         private TreeNode _rootNode;
+        private int maxDeepTree = 0;
 
         public int Count { get; private set; }
 
@@ -51,18 +52,40 @@ namespace Task_2.Tree
         /// <summary>Вывести дерево в консоль.</summary>
         public void PrintTree()
         {
-            
-            int depth = GetDepthTree(_rootNode, 0, 0);
+            maxDeepTree = 0;
+            GetDepthTree(_rootNode, 0);
+            int x = maxDeepTree;
         }
 
-        private int GetDepthTree(TreeNode node, int depth)
+        private void PrintNodes()
+        {
+            int center = Center(maxDeepTree);
+        }
+
+        private int Center(int deepth)
+        {
+            return Center(deepth += deepth + 2);
+        }
+
+        /// <summary>Получить максимальную глубину дерева.</summary>
+        /// <param name="node">Коренная нода.</param>
+        /// <param name="depth">Глубина рекурсии.</param>
+        private void GetDepthTree(TreeNode node, int depth)
         {
             if (node.LeftChild != null)
-                depth = GetDepthTree(node.LeftChild, depth);
-            if (node.RightChild != null)
-                depth = GetDepthTree(node.RightChild, depth);
+            {
+                GetDepthTree(node.LeftChild, ++depth);
+                depth--;
+            }
 
-            return depth;
+            if (node.RightChild != null)
+            {
+                GetDepthTree(node.RightChild, ++depth);
+                depth--;
+            }
+
+            if (depth > maxDeepTree)
+                maxDeepTree = depth;
         }
 
         /// <summary>Удалить ноду по значению.</summary>
