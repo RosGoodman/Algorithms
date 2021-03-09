@@ -55,16 +55,21 @@ namespace Task_2.Tree
             maxDeepTree = 0;
             GetDepthTree(_rootNode, 0);
             int x = maxDeepTree;
+            PrintNodes();
         }
 
         private void PrintNodes()
         {
-            int center = Center(maxDeepTree);
+            int center = Center(maxDeepTree, 0);
         }
 
-        private int Center(int deepth)
+        private int Center(int deepth, int lenght)
         {
-            return Center(deepth += deepth + 2);
+            if(deepth > 0)
+            {
+                lenght = Center(--deepth, lenght + deepth + 2);
+            }
+            return lenght;
         }
 
         /// <summary>Получить максимальную глубину дерева.</summary>
