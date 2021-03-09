@@ -18,35 +18,6 @@ namespace Task_2
 
             tree.PrintTree();
 
-            TreeNode sNode = tree.GetNodeByValue(84);
-            if(sNode.ParentNode != null) Console.WriteLine("p" + sNode.ParentNode.Value);
-            if (sNode.LeftChild != null) Console.WriteLine("l" + sNode.LeftChild.Value);
-            if (sNode.RightChild != null) Console.WriteLine("r" + sNode.RightChild.Value);
-            Console.WriteLine();
-
-            tree.RemoveItem(84);
-
-            sNode = tree.GetNodeByValue(55);
-            if (sNode.ParentNode != null) Console.WriteLine("p" + sNode.ParentNode.Value);
-            if (sNode.LeftChild != null) Console.WriteLine("l" + sNode.LeftChild.Value);
-            if (sNode.RightChild != null) Console.WriteLine("r" + sNode.RightChild.Value);
-            Console.WriteLine();
-
-
-            sNode = tree.GetNodeByValue(61);
-            if (sNode.ParentNode != null) Console.WriteLine("p" + sNode.ParentNode.Value);
-            if (sNode.LeftChild != null) Console.WriteLine("l" + sNode.LeftChild.Value);
-            if (sNode.RightChild != null) Console.WriteLine("r" + sNode.RightChild.Value);
-            Console.WriteLine();
-
-
-            sNode = tree.GetNodeByValue(95);
-            if (sNode.ParentNode != null) Console.WriteLine("p" + sNode.ParentNode.Value);
-            if (sNode.LeftChild != null) Console.WriteLine("l" + sNode.LeftChild.Value);
-            if (sNode.RightChild != null) Console.WriteLine("r" + sNode.RightChild.Value);
-            Console.WriteLine();
-
-
             Console.ReadLine();
         }
     }

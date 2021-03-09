@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Task_2.Tree
 {
@@ -58,18 +57,40 @@ namespace Task_2.Tree
             PrintNodes();
         }
 
+        /// <summary>Вывести дерево в консоль.</summary>
         private void PrintNodes()
         {
-            int center = Center(maxDeepTree, 0);
+            //int center = Center(maxDeepTree, 0);
+            PrintingTree(_rootNode, maxDeepTree);
         }
 
-        private int Center(int deepth, int lenght)
+        /// <summary>Вывод нод на консоль.</summary>
+        /// <param name="p">Нода.</param>
+        /// <param name="padding">Максимальная глубина дерева.</param>
+        private void PrintingTree(TreeNode p, int padding)
         {
-            if(deepth > 0)
+            if (p != null)
             {
-                lenght = Center(--deepth, lenght + deepth + 2);
+                if (p.RightChild != null)
+                {
+                    PrintingTree(p.RightChild, padding + 4);
+                }
+                if (padding > 0)
+                {
+                    Console.Write(" ".PadLeft(padding));
+                }
+                if (p.RightChild != null)
+                {
+                    Console.Write("/\n");
+                    Console.Write(" ".PadLeft(padding));
+                }
+                Console.Write(p.Value+ "\n ");
+                if (p.LeftChild != null)
+                {
+                    Console.Write(" ".PadLeft(padding) + "\\\n");
+                    PrintingTree(p.LeftChild, padding + 4);
+                }
             }
-            return lenght;
         }
 
         /// <summary>Получить максимальную глубину дерева.</summary>
@@ -122,7 +143,7 @@ namespace Task_2.Tree
                 }
                 else if(repastNode.ParentNode == deletingNode)
                 {
-                    if (deletingNode.RightChild != null) deletingNode.RightChild.ParentNode = repastNode;
+                    if (deletingNode.RightChild != null) deletingNode.ParentNode.RightChild = repastNode;
                     repastNode.ParentNode = deletingNode.ParentNode;
                     repastNode.RightChild = deletingNode.RightChild;
                     deletingNode.ParentNode.RightChild = repastNode;
@@ -157,9 +178,9 @@ namespace Task_2.Tree
                 }
                 else if (repastNode.ParentNode == deletingNode)
                 {
+                    if (deletingNode.RightChild != null || deletingNode.RightChild != repastNode) deletingNode.RightChild.ParentNode = repastNode;
                     repastNode.ParentNode = deletingNode.ParentNode;
-                    repastNode.RightChild = deletingNode.RightChild;
-                    if (deletingNode.RightChild != null) deletingNode.RightChild.ParentNode = repastNode;
+                    repastNode.RightChild = null; //deletingNode.RightChild;
                     deletingNode.ParentNode.RightChild = repastNode;
                     repastNode.LeftChild = deletingNode.LeftChild;
                 }
@@ -200,7 +221,7 @@ namespace Task_2.Tree
                         thisRoot.ParentNode.LeftChild = thisRoot.RightChild;
                     else
                     {
-                        repastNode = deletingNode.LeftChild;
+                        repastNode = deletingNode.RightChild;
                     }
                     if(thisRoot.RightChild != null) thisRoot.RightChild.ParentNode = thisRoot.ParentNode;
                     break;
