@@ -144,32 +144,13 @@ namespace Task_2.Tree
                 else if (repastNode.ParentNode == deletingNode)
                 {
                     deletingNode.ParentNode.LeftChild = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-                    if (repastNode.Value > deletingNode.Value)
-                    {
-                        repastNode.LeftChild = deletingNode.LeftChild;
-                        if (deletingNode.LeftChild != null && deletingNode.LeftChild != repastNode) repastNode.LeftChild.ParentNode = repastNode;
-                    }
-                    else
-                    {
-                        repastNode.RightChild = deletingNode.RightChild;
-                        if (deletingNode.RightChild != null && deletingNode.RightChild != repastNode) repastNode.RightChild.ParentNode = repastNode;
-                    }
+                    WriteReferencesIsSubNode(deletingNode, repastNode);
                 }
                 //замещение узла
                 else
                 {
-                    if (repastNode.Value > repastNode.ParentNode.Value)
-                        repastNode.ParentNode.RightChild = null;
-                    else
-                        repastNode.ParentNode.LeftChild = null;
-
                     deletingNode.ParentNode.LeftChild = repastNode;
-                    deletingNode.LeftChild.ParentNode = repastNode;
-                    deletingNode.RightChild.ParentNode = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-                    repastNode.LeftChild = deletingNode.LeftChild;
-                    repastNode.RightChild = deletingNode.RightChild;
+                    WriteReferencesKnot(deletingNode, repastNode);
                 }
             }
             //удаление в правой ветви
@@ -184,35 +165,51 @@ namespace Task_2.Tree
                 else if (repastNode.ParentNode == deletingNode)
                 {
                     deletingNode.ParentNode.RightChild = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-
-                    if (repastNode.Value > deletingNode.Value)
-                    {
-                        repastNode.LeftChild = deletingNode.LeftChild;
-                        if (deletingNode.LeftChild != null) repastNode.LeftChild.ParentNode = repastNode;
-                    }
-                    else
-                    {
-                        repastNode.RightChild = deletingNode.RightChild;
-                        if (deletingNode.RightChild != null) repastNode.RightChild.ParentNode = repastNode;
-                    }
+                    WriteReferencesIsSubNode(deletingNode, repastNode);
                 }
                 //замещение узла
                 else
                 {
-                    if (repastNode.Value > repastNode.ParentNode.Value)
-                        repastNode.ParentNode.RightChild = null;
-                    else
-                        repastNode.ParentNode.LeftChild = null;
-
                     deletingNode.ParentNode.RightChild = repastNode;
-                    deletingNode.LeftChild.ParentNode = repastNode;
-                    deletingNode.RightChild.ParentNode = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-                    repastNode.LeftChild = deletingNode.LeftChild;
-                    repastNode.RightChild = deletingNode.RightChild;
+                    WriteReferencesKnot(deletingNode, repastNode);
                 }
             }
+        }
+
+        /// <summary>Изменение связей при удалении узла и замещении его соседней нодой.</summary>
+        /// <param name="deletingNode">Удаляемая нода.</param>
+        /// <param name="repastNode">Замещающая нода.</param>
+        private void WriteReferencesIsSubNode(TreeNode deletingNode, TreeNode repastNode)
+        {
+            repastNode.ParentNode = deletingNode.ParentNode;
+
+            if (repastNode.Value > deletingNode.Value)
+            {
+                repastNode.LeftChild = deletingNode.LeftChild;
+                if (deletingNode.LeftChild != null) repastNode.LeftChild.ParentNode = repastNode;
+            }
+            else
+            {
+                repastNode.RightChild = deletingNode.RightChild;
+                if (deletingNode.RightChild != null) repastNode.RightChild.ParentNode = repastNode;
+            }
+        }
+
+        /// <summary>Изменение связей при удалении узла.</summary>
+        /// <param name="deletingNode">Узаляемая нода.</param>
+        /// <param name="repastNode">Замещающая нода.</param>
+        private void WriteReferencesKnot(TreeNode deletingNode, TreeNode repastNode)
+        {
+            if (repastNode.Value > repastNode.ParentNode.Value)
+                repastNode.ParentNode.RightChild = null;
+            else
+                repastNode.ParentNode.LeftChild = null;
+
+            deletingNode.LeftChild.ParentNode = repastNode;
+            deletingNode.RightChild.ParentNode = repastNode;
+            repastNode.ParentNode = deletingNode.ParentNode;
+            repastNode.LeftChild = deletingNode.LeftChild;
+            repastNode.RightChild = deletingNode.RightChild;
         }
 
         /// <summary>Постфиксный обход дерева.</summary>
