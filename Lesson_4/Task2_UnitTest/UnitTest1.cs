@@ -193,39 +193,35 @@ namespace Task2_UnitTest
             Assert.AreEqual(null, rightNode.LeftChild);
         }
 
-        //[TestMethod]
-        //public void Test_RemoveItem_RightKnotInRightBranch()
-        //{
-        //    //Arrange
-        //    Generator generator = new Generator();
-        //    int[] array = new int[] { 55, 24, 15, 18, 10, 36, 30, 31, 26, 28, 41, 39, 38, 48, 84, 95, 61, 58, 64, 63, 90, 96, 97 };
-        //    TreeClass tree = new TreeClass();
+        [TestMethod]
+        public void Test_RemoveItem_RightKnotInRightBranch()
+        {
+            //Arrange
+            Generator generator = new Generator();
+            int[] array = new int[] { 55, 24, 15, 18, 10, 36, 30, 31, 26, 28, 41, 39, 38, 48, 84, 95, 61, 58, 64, 63, 90, 96, 97 };
+            TreeClass tree = new TreeClass();
 
-        //    //Act
-        //    for (int i = 0; i < array.Length; i++)
-        //    {
-        //        tree.AddItem(array[i]);
-        //    }
-        //    tree.RemoveItem(95);
+            //Act
+            for (int i = 0; i < array.Length; i++)
+            {
+                tree.AddItem(array[i]);
+            }
+            tree.RemoveItem(95);
 
-        //    TreeNode parentNode = tree.GetNodeByValue(84);
-        //    TreeNode replaceNode = tree.GetNodeByValue(96);
-        //    TreeNode leftNode = tree.GetNodeByValue(90);
-        //    //TreeNode rightNode = tree.GetNodeByValue(97);
+            TreeNode parentNode = tree.GetNodeByValue(84);
+            TreeNode replaceNode = tree.GetNodeByValue(96);
+            TreeNode leftNode = tree.GetNodeByValue(90);
+            TreeNode rightNode = tree.GetNodeByValue(97);
 
-        //    //Assert
-        //    Assert.AreEqual(96, parentNode.RightChild.Value);
+            //Assert
+            Assert.AreEqual(96, parentNode.RightChild.Value);
 
-        //    Assert.AreEqual(84, replaceNode.ParentNode.Value);
-        //    Assert.AreEqual(90, replaceNode.LeftChild.Value);
-        //    Assert.AreEqual(97, replaceNode.RightChild.Value);
+            Assert.AreEqual(84, replaceNode.ParentNode.Value);
+            Assert.AreEqual(90, replaceNode.LeftChild.Value);
+            Assert.AreEqual(97, replaceNode.RightChild.Value);
 
-        //    Assert.AreEqual(96, leftNode.ParentNode.Value);
-        //    //Assert.AreEqual(96, rightNode.ParentNode.Value);
-
-        //    Assert.AreEqual(24, replaceNode.ParentNode.Value);
-        //    Assert.AreEqual(30, replaceNode.LeftChild.Value);
-        //    Assert.AreEqual(41, replaceNode.RightChild.Value);
-        //}
+            Assert.AreEqual(96, leftNode.ParentNode.Value);
+            Assert.AreEqual(96, rightNode.ParentNode.Value);
+        }
     }
 }

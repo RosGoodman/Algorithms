@@ -119,78 +119,97 @@ namespace Task_2.Tree
         public void RemoveItem(int value)
         {
             TreeNode deletingNode = PrefixBypass(value, true);
-            TreeNode repastNode = new TreeNode();
+            TreeNode repastNode = PostfixBypass(deletingNode);
 
-            if(deletingNode.ParentNode == null || deletingNode.ParentNode.Value < deletingNode.Value)
+            if(deletingNode.ParentNode == null) //удаляем корень
             {
-                //смещаем крайнюю левую ноду в правой ветви
-                //постфиксный обход
-                repastNode = PostfixBypass(deletingNode);
+                if (deletingNode.LeftChild != null) deletingNode.LeftChild.ParentNode = repastNode;
+                if (deletingNode.RightChild != null) deletingNode.RightChild.ParentNode = repastNode;
+                repastNode.ParentNode = null;
+                repastNode.LeftChild = deletingNode.LeftChild;
+                repastNode.RightChild = deletingNode.RightChild;
 
-                if (repastNode == null)
+                _rootNode = repastNode;
+            }
+            //удаление в левой ветви
+            else if (deletingNode.ParentNode.Value > deletingNode.Value)
+            {
+                //лист (нет замещающей ноды)
+                if (repastNode == null)  
+                {
+                    deletingNode.ParentNode.LeftChild = null;
+                }
+                //замещающая нода является дочерней удаляемой
+                else if (repastNode.ParentNode == deletingNode)
+                {
+                    deletingNode.ParentNode.LeftChild = repastNode;
+                    repastNode.ParentNode = deletingNode.ParentNode;
+                    if (repastNode.Value > deletingNode.Value)
+                    {
+                        repastNode.LeftChild = deletingNode.LeftChild;
+                        if (deletingNode.LeftChild != null && deletingNode.LeftChild != repastNode) repastNode.LeftChild.ParentNode = repastNode;
+                    }
+                    else
+                    {
+                        repastNode.RightChild = deletingNode.RightChild;
+                        if (deletingNode.RightChild != null && deletingNode.RightChild != repastNode) repastNode.RightChild.ParentNode = repastNode;
+                    }
+                }
+                //замещение узла
+                else
+                {
+                    if (repastNode.Value > repastNode.ParentNode.Value)
+                        repastNode.ParentNode.RightChild = null;
+                    else
+                        repastNode.ParentNode.LeftChild = null;
+
+                    deletingNode.ParentNode.LeftChild = repastNode;
+                    deletingNode.LeftChild.ParentNode = repastNode;
+                    deletingNode.RightChild.ParentNode = repastNode;
+                    repastNode.ParentNode = deletingNode.ParentNode;
+                    repastNode.LeftChild = deletingNode.LeftChild;
+                    repastNode.RightChild = deletingNode.RightChild;
+                }
+            }
+            //удаление в правой ветви
+            else
+            {
+                //лист (нет замещающей ноды)
+                if (repastNode == null) 
                 {
                     deletingNode.ParentNode.RightChild = null;
                 }
-                else if (deletingNode == _rootNode)
-                {
-                    if (deletingNode.LeftChild != null) deletingNode.LeftChild.ParentNode = repastNode;
-                    if (deletingNode.RightChild != null) deletingNode.RightChild.ParentNode = repastNode;
-                    repastNode.ParentNode = null;
-                    repastNode.LeftChild = deletingNode.LeftChild;
-                    repastNode.RightChild = deletingNode.RightChild;
-                    
-                    _rootNode = repastNode;
-                }
-                else if(repastNode.ParentNode == deletingNode)
-                {
-                    if (deletingNode.RightChild != null) deletingNode.ParentNode.RightChild = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-                    repastNode.RightChild = deletingNode.RightChild;
-                    deletingNode.ParentNode.RightChild = repastNode;
-                }
-                else if(repastNode != null)
-                {
-                    if(deletingNode.LeftChild != null)
-                    {
-                        repastNode.LeftChild = deletingNode.LeftChild;
-                        repastNode.LeftChild.ParentNode = repastNode;
-                    }
-                    if(deletingNode.RightChild != null)
-                    {
-                        repastNode.RightChild = deletingNode.RightChild;
-                        repastNode.RightChild.ParentNode = repastNode;
-                    }
-                    deletingNode.ParentNode.RightChild = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-                }
-            }
-            else
-            {
-                //смещаем крайнюю правую ноду в левой ветви
-                repastNode = PostfixBypass(deletingNode);
-
-                deletingNode.ParentNode.LeftChild = repastNode;
-                if (deletingNode.LeftChild != null) deletingNode.LeftChild.ParentNode = repastNode;
-
-                if(repastNode == null)
-                {
-                    deletingNode.LeftChild = null;
-                }
+                //замещающая нода является дочерней удаляемой
                 else if (repastNode.ParentNode == deletingNode)
                 {
-                    if (deletingNode.RightChild != null || deletingNode.RightChild != repastNode) deletingNode.RightChild.ParentNode = repastNode;
-                    repastNode.ParentNode = deletingNode.ParentNode;
-                    repastNode.RightChild = null; //deletingNode.RightChild;
                     deletingNode.ParentNode.RightChild = repastNode;
-                    repastNode.LeftChild = deletingNode.LeftChild;
+                    repastNode.ParentNode = deletingNode.ParentNode;
+
+                    if (repastNode.Value > deletingNode.Value)
+                    {
+                        repastNode.LeftChild = deletingNode.LeftChild;
+                        if (deletingNode.LeftChild != null) repastNode.LeftChild.ParentNode = repastNode;
+                    }
+                    else
+                    {
+                        repastNode.RightChild = deletingNode.RightChild;
+                        if (deletingNode.RightChild != null) repastNode.RightChild.ParentNode = repastNode;
+                    }
                 }
+                //замещение узла
                 else
                 {
-                    if (deletingNode.RightChild != null) deletingNode.RightChild.ParentNode = repastNode;
-                    if (deletingNode.LeftChild != null) deletingNode.LeftChild.ParentNode = repastNode;
+                    if (repastNode.Value > repastNode.ParentNode.Value)
+                        repastNode.ParentNode.RightChild = null;
+                    else
+                        repastNode.ParentNode.LeftChild = null;
+
+                    deletingNode.ParentNode.LeftChild = repastNode;
+                    deletingNode.LeftChild.ParentNode = repastNode;
+                    deletingNode.RightChild.ParentNode = repastNode;
                     repastNode.ParentNode = deletingNode.ParentNode;
-                    repastNode.RightChild = deletingNode.RightChild;
                     repastNode.LeftChild = deletingNode.LeftChild;
+                    repastNode.RightChild = deletingNode.RightChild;
                 }
             }
         }
@@ -223,7 +242,7 @@ namespace Task_2.Tree
                     {
                         repastNode = deletingNode.RightChild;
                     }
-                    if(thisRoot.RightChild != null) thisRoot.RightChild.ParentNode = thisRoot.ParentNode;
+                    //if(thisRoot.RightChild != null) thisRoot.RightChild.ParentNode = thisRoot.ParentNode;
                     break;
                 }
             } while (true);
