@@ -103,6 +103,8 @@ namespace Task2_UnitTest
 
         #endregion
 
+        #region KnotTree
+
         [TestMethod]
         public void Test_RemoveItem_LeftKnotInLeftBranch()
         {
@@ -223,5 +225,41 @@ namespace Task2_UnitTest
             Assert.AreEqual(96, leftNode.ParentNode.Value);
             Assert.AreEqual(96, rightNode.ParentNode.Value);
         }
+
+        #endregion
+
+        #region Root
+
+        [TestMethod]
+        public void Test_RemoveItem_Root()
+        {
+            //Arrange
+            Generator generator = new Generator();
+            int[] array = new int[] { 55, 24, 15, 18, 10, 36, 30, 31, 26, 28, 41, 39, 38, 48, 84, 95, 61, 58, 64, 63, 90, 96, 97 };
+            TreeClass tree = new TreeClass();
+
+            //Act
+            for (int i = 0; i < array.Length; i++)
+            {
+                tree.AddItem(array[i]);
+            }
+            tree.RemoveItem(55);
+
+            TreeNode replaceNode = tree.GetNodeByValue(58);
+            TreeNode leftNode = tree.GetNodeByValue(24);
+            TreeNode rightNode = tree.GetNodeByValue(84);
+            TreeNode replaceParent = tree.GetNodeByValue(61);
+
+            //Assert
+            Assert.AreEqual(24, replaceNode.LeftChild.Value);
+            Assert.AreEqual(84, replaceNode.RightChild.Value);
+
+            Assert.AreEqual(58, leftNode.ParentNode.Value);
+            Assert.AreEqual(58, rightNode.ParentNode.Value);
+
+            Assert.AreEqual(null, replaceParent.LeftChild);
+        }
+
+        #endregion
     }
 }

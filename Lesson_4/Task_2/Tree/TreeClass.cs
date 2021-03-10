@@ -125,6 +125,7 @@ namespace Task_2.Tree
             {
                 if (deletingNode.LeftChild != null) deletingNode.LeftChild.ParentNode = repastNode;
                 if (deletingNode.RightChild != null) deletingNode.RightChild.ParentNode = repastNode;
+                repastNode.ParentNode.LeftChild = null;
                 repastNode.ParentNode = null;
                 repastNode.LeftChild = deletingNode.LeftChild;
                 repastNode.RightChild = deletingNode.RightChild;
@@ -204,7 +205,7 @@ namespace Task_2.Tree
                     else
                         repastNode.ParentNode.LeftChild = null;
 
-                    deletingNode.ParentNode.LeftChild = repastNode;
+                    deletingNode.ParentNode.RightChild = repastNode;
                     deletingNode.LeftChild.ParentNode = repastNode;
                     deletingNode.RightChild.ParentNode = repastNode;
                     repastNode.ParentNode = deletingNode.ParentNode;
@@ -233,16 +234,9 @@ namespace Task_2.Tree
                     thisRoot = thisRoot.LeftChild;
                     continue;
                 }
-                else if (thisRoot.LeftChild == null)
+                else
                 {
                     repastNode = thisRoot;
-                    if(thisRoot.ParentNode != deletingNode)
-                        thisRoot.ParentNode.LeftChild = thisRoot.RightChild;
-                    else
-                    {
-                        repastNode = deletingNode.RightChild;
-                    }
-                    //if(thisRoot.RightChild != null) thisRoot.RightChild.ParentNode = thisRoot.ParentNode;
                     break;
                 }
             } while (true);
