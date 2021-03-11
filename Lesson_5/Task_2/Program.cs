@@ -1,4 +1,5 @@
 ﻿using System;
+using Task_1.Search_BFS_DFS;
 using Task_2.Tree;
 
 namespace Task_2
@@ -8,7 +9,7 @@ namespace Task_2
         static void Main(string[] args)
         {
             Generator generator = new Generator();
-            int[] array = new int[] { 55, 24, 15, 18, 10, 36, 30, 31, 26, 28, 41, 39, 48, 84, 61, 95 };
+            int[] array = generator.GetIntArray(15);
             TreeClass tree = new TreeClass();
 
             for (int i = 0; i < array.Length; i++)
@@ -16,7 +17,29 @@ namespace Task_2
                 tree.AddItem(array[i]);
             }
 
-            tree.PrintTree();
+            Searchs search = new Searchs();
+            int searchigValue = 31;
+            TreeNode searchNode = search.SearchBFS(tree.GetRoot(), searchigValue);
+            TreeNode searchNode1 = search.SearchDFS(tree.GetRoot(), searchigValue);
+
+            string arrayString = string.Empty;
+            for (int i = 0; i < array.Length; i++)
+            {
+                arrayString += array[i] + " ";
+            }
+            Console.WriteLine();
+            Console.WriteLine("Array " + arrayString);
+
+            if (searchNode != null)
+            {
+                Console.WriteLine("BFS  " + searchNode.Value);
+                Console.WriteLine("DFS  " + searchNode1.Value);
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Такое значение ({0}) не найдено.", searchigValue);
+            }
 
             Console.ReadLine();
         }

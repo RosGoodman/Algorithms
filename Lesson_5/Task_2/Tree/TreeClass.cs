@@ -7,6 +7,11 @@ namespace Task_2.Tree
         private TreeNode _rootNode;
         private int maxDeepTree = 0;
 
+        public TreeNode RootNode
+        {
+            get { return _rootNode; }
+        }
+
         public int Count { get; private set; }
 
         /// <summary>Добавить ноду в дерево.</summary>
@@ -60,7 +65,6 @@ namespace Task_2.Tree
         /// <summary>Вывести дерево в консоль.</summary>
         private void PrintNodes()
         {
-            //int center = Center(maxDeepTree, 0);
             PrintingTree(_rootNode, maxDeepTree);
         }
 
@@ -272,7 +276,9 @@ namespace Task_2.Tree
                 }
                 else
                 {
-                    if (search && current.RightChild.Value == value)    //условие при поиске по значению
+                    if (search && current.RightChild == null)
+                        return null;
+                    else if (search && current.RightChild.Value == value)    //условие при поиске по значению
                         return current.RightChild;
                     else
                     {
