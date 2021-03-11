@@ -65,30 +65,30 @@ namespace Task_2.Tree
         }
 
         /// <summary>Вывод нод на консоль.</summary>
-        /// <param name="p">Нода.</param>
+        /// <param name="node">Нода.</param>
         /// <param name="padding">Максимальная глубина дерева.</param>
-        private void PrintingTree(TreeNode p, int padding)
+        private void PrintingTree(TreeNode node, int padding)
         {
-            if (p != null)
+            if (node != null)
             {
-                if (p.RightChild != null)
+                if (node.RightChild != null)
                 {
-                    PrintingTree(p.RightChild, padding + 4);
+                    PrintingTree(node.RightChild, padding + 3);
                 }
                 if (padding > 0)
                 {
                     Console.Write(" ".PadLeft(padding));
                 }
-                if (p.RightChild != null)
+                if (node.RightChild != null)
                 {
                     Console.Write("/\n");
                     Console.Write(" ".PadLeft(padding));
                 }
-                Console.Write(p.Value+ "\n ");
-                if (p.LeftChild != null)
+                Console.Write(node.Value+ "\n ");
+                if (node.LeftChild != null)
                 {
                     Console.Write(" ".PadLeft(padding) + "\\\n");
-                    PrintingTree(p.LeftChild, padding + 4);
+                    PrintingTree(node.LeftChild, padding + 3);
                 }
             }
         }
@@ -113,6 +113,8 @@ namespace Task_2.Tree
             if (depth > maxDeepTree)
                 maxDeepTree = depth;
         }
+
+        #region DeletingNodes
 
         /// <summary>Удалить ноду по значению.</summary>
         /// <param name="value">Значение удаляеой ноды.</param>
@@ -240,6 +242,8 @@ namespace Task_2.Tree
 
             return repastNode;
         }
+
+        #endregion
 
         /// <summary>Префиксный обход дерева.</summary>
         /// <param name="value">Искомое значение.</param>
