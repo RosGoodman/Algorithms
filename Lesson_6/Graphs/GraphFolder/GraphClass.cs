@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Graphs.Graph
 {
-    class Graph : IGraph
+    public class GraphClass : IGraph
     {
         private List<Node> _nodesList;
 
@@ -33,7 +33,7 @@ namespace Graphs.Graph
 
         /// <summary>Добавить множество нод с помощью матрицы связей.</summary>
         /// <param name="graphMatrix">Матрица связей, где первая вертикаль и горизонталь - значения нод.</param>
-        public void AddItem(int[,] graphMatrix)
+        public void AddItem(int[][] graphMatrix)
         {
             int nodeValue;
             Node refNode;
@@ -42,15 +42,15 @@ namespace Graphs.Graph
 
             for (int i = 0; i < graphMatrix.GetLength(0); i++)
             {
-                nodeValue = graphMatrix[i, 0];
+                nodeValue = i;
 
                 for (int j = 1; j < graphMatrix.GetLength(1); j++)
                 {
                     edge = new Edge();
                     refNode = new Node();
-                    refNode.Value = graphMatrix[0, j];
+                    refNode.Value = graphMatrix[0][j];
                     edge.Node = refNode;
-                    edge.Weight = graphMatrix[i, j];
+                    edge.Weight = graphMatrix[i][j];
 
                     edges.Add(edge);
                 }
@@ -78,15 +78,36 @@ namespace Graphs.Graph
             //очередь сделана через лист, чтобы не делать отдельный массив для проверенных нод
             List <Node> checkList = new List<Node>();
             int index = 0;
-            Node node = _nodesList[0];
-            checkList.Add(node);
+            Node node;
 
             do
             {
-                
+                node = checkList[index];
+                if (node.Value == value)
+                {
+                    FoundNode(node, "BFS");
+                    break;
+                }
+
+                foreach(Edge edge in node.Edges)
+                {
+                    if(!checkList.Contains(edge.Node))
+                        checkList.Add(edge.Node);
+                }
             } while (index <= checkList.Count);
 
             return node;
+        }
+
+        /// <summary>Вывести результаты.</summary>
+        /// <param name="node">Найденная нода или null.</param>
+        /// <param name="searchType">Тип поиска.</param>
+        private void FoundNode(Node node, string searchType)
+        {
+            if (node == null)
+                Console.WriteLine("{0}: Узел с таким значение не найден.");
+            else
+                Console.WriteLine("{0}: {1}", searchType, node.Value);
         }
 
         /// <summary>Получить список нод.</summary>
@@ -99,18 +120,32 @@ namespace Graphs.Graph
         /// <summary>Вывести матрицу связей.</summary>
         public void PrintGraphMatrix()
         {
-            int[,] graphMatrix = new int[_nodesList.Count+1, _nodesList.Count+1];
-            for (int i = 0; i < _nodesList.Count; i++)
-            {
-                graphMatrix[i + 1, i + 1] = _nodesList[i].Value;
-            }
+            int[,] graphMatrix = new int[_nodesList.Count+1, _nodesList.Count + 1];
+
+            //TODO: сделать
         }
 
         /// <summary>Удалить ноду.</summary>
         /// <param name="value">Значение удаляемой ноды.</param>
         public void RemoveItem(int value)
         {
-            throw new NotImplementedException();
+            Node node = SearchBFS(value);
+            if (node != null)
+            {
+                foreach(Edge edge in node.Edges)
+                {
+                    Node refNode = edge.Node;
+                    foreach(Edge edge1 in refNode.Edges)
+                    {
+                        if (edge1.Node == node)
+                        {
+                            refNode.Edges.Remove(edge1);
+                            break;
+                        }
+                            
+                    }
+                }
+            }
         }
     }
 }
