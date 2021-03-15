@@ -1,5 +1,6 @@
 ﻿
 using Graphs.Graph;
+using System;
 
 namespace Graphs
 {
@@ -25,6 +26,8 @@ namespace Graphs
             GraphClass graph = new GraphClass();
             graph.AddItem(matrix);
 
+            graph.PrintGraphMatrix();
+            Console.ReadLine();
         }
     }
 }

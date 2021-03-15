@@ -5,7 +5,7 @@ namespace Graphs.Graph
 {
     public class GraphClass : IGraph
     {
-        private List<Node> _nodesList;
+        private List<Node> _nodesList = new List<Node>();
 
         /// <summary>Добавить ноду.</summary>
         /// <param name="value">Значение ноды.</param>
@@ -44,7 +44,7 @@ namespace Graphs.Graph
             {
                 nodeValue = i;
 
-                for (int j = 1; j < graphMatrix.GetLength(1); j++)
+                for (int j = 0; j < graphMatrix.GetLength(0); j++)
                 {
                     edge = new Edge();
                     refNode = new Node();
@@ -122,7 +122,40 @@ namespace Graphs.Graph
         {
             int[,] graphMatrix = new int[_nodesList.Count+1, _nodesList.Count + 1];
 
-            //TODO: сделать
+            //Values
+            for (int i = 1; i < _nodesList.Count + 1; i++)
+            {
+                graphMatrix[i, 0] = _nodesList[i].Value;
+                graphMatrix[0, i] = _nodesList[i].Value;
+            }
+            //Weight
+            Node node;
+            for (int i = 0; i < _nodesList.Count; i++)  //ноды, для которой прописываются связи
+            {
+                for (int j = 0; j < _nodesList[i].Edges.Count; j++) //связанные ноды
+                {
+                    node = _nodesList[i].Edges[j].Node;
+                    for (int k = 0; k < _nodesList.Count; k++)  //порядок связанной ноды в матрице
+                    {
+                        if(node == _nodesList[k])
+                        {
+                            graphMatrix[i, k+1] = _nodesList[i].Edges[j].Weight;
+                            graphMatrix[k+1, i] = _nodesList[i].Edges[j].Weight;
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < graphMatrix.GetLength(0); i++)
+            {
+                string printStr = string.Empty;
+                for (int j = 0; j < graphMatrix.GetLength(1); j++)
+                {
+                    printStr += graphMatrix[i, j] + "  ";
+                }
+                Console.WriteLine(printStr);
+            }
+            
         }
 
         /// <summary>Удалить ноду.</summary>
