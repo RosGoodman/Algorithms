@@ -15,7 +15,7 @@ namespace Graphs.Graph
             Node newNode = new Node(value, edges);
             _nodesList.Add(newNode);
 
-            //добавление связей к новой ноде
+            //добавление связей К новой ноде
             for (int i = 0; i < edges.Count; i++)
             {
                 for (int j = 0; j < _nodesList.Count; j++)
@@ -32,7 +32,7 @@ namespace Graphs.Graph
         }
 
         /// <summary>Добавить множество нод с помощью матрицы связей.</summary>
-        /// <param name="graphMatrix">Матрица связей, где первая вертикаль и горизонталь - значения нод.</param>
+        /// <param name="graphMatrix">Матрица связей.</param>
         public void AddItem(int[][] graphMatrix)
         {
             int nodeValue;
@@ -46,13 +46,16 @@ namespace Graphs.Graph
 
                 for (int j = 0; j < graphMatrix.GetLength(0); j++)
                 {
-                    edge = new Edge();
-                    refNode = new Node();
-                    refNode.Value = graphMatrix[0][j];
-                    edge.Node = refNode;
-                    edge.Weight = graphMatrix[i][j];
+                    if(graphMatrix[0][j] != 0)  //связи ОТ новой ноды
+                    {
+                        edge = new Edge();
+                        refNode = new Node();
+                        refNode.Value = j;
+                        edge.Node = refNode;
+                        edge.Weight = graphMatrix[i][j];
 
-                    edges.Add(edge);
+                        edges.Add(edge);
+                    }
                 }
 
                 AddItem(nodeValue, edges);
