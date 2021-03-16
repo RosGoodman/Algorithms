@@ -1,5 +1,4 @@
-﻿
-using Graphs.Graph;
+﻿using Graphs.Graph;
 using System;
 
 namespace Graphs
