@@ -13,19 +13,23 @@ namespace Graphs.Graph
         public void AddItem(int value, List<Edge> edges)
         {
             Node newNode = new Node(value, edges);
+            Edge edge;
             _nodesList.Add(newNode);
 
             //добавление связей К новой ноде
-            for (int i = 0; i < edges.Count; i++)
+            for (int i = 0; i < edges.Count; i++)   //перечисление связей от ноды
             {
-                for (int j = 0; j < _nodesList.Count; j++)
+                for (int j = 0; j < _nodesList.Count; j++)  //перечисление существующих нод
                 {
-                    if(edges[i].Node.Value == _nodesList[j].Value)
+                    edge = new Edge();
+                    edge.Node = newNode;
+                    edge.Weight = edges[i].Weight;
+                    //нода есть в списке, не петля, в ноде еще не записана связь
+                    if (edges[i].Node.Value == _nodesList[j].Value)// && _nodesList[j] != newNode && !_nodesList[i].Edges.Contains(edge))
                     {
-                        Edge edge = new Edge();
-                        edge.Node = newNode;
-                        edge.Weight = edges[i].Weight;
-                        _nodesList[j].Edges.Add(edge);
+                        if(_nodesList[j] != newNode)
+                            if(!_nodesList[i].Edges.Contains(edge))
+                                _nodesList[j].Edges.Add(edge);
                     }
                 }
             }
@@ -38,15 +42,44 @@ namespace Graphs.Graph
             int nodeValue;
             Node refNode;
             Edge edge;
-            List<Edge> edges = new List<Edge>();
+            List<Edge> edges;
 
+            //сначала добавляем все новые ноды в общий список
+            for (int i = 0; i < graphMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j <= _nodesList.Count; j++)
+                {
+                    if (_nodesList.Count != 0 && _nodesList[j].Value == graphMatrix[i][0])
+                        break;
+
+                    if (j == _nodesList.Count || _nodesList.Count == 0)
+                    {
+                        Node node = new Node();
+                        node.Value = graphMatrix[i][0];
+                        _nodesList.Add(node);
+                    }
+                }
+            }
+
+            //запись свзязей
             for (int i = 0; i < graphMatrix.GetLength(0); i++)
             {
                 nodeValue = i;
+                edges = new List<Edge>();
+                Node node = new Node();
 
-                for (int j = 0; j < graphMatrix.GetLength(0); j++)
+                foreach (Node n in _nodesList)
                 {
-                    if(graphMatrix[0][j] != 0)  //связи ОТ новой ноды
+                    if (n.Value != graphMatrix[i][0])
+                    {
+                        node = n;
+                        break;
+                    }
+                }
+
+                for (int j = 1; j < graphMatrix.GetLength(0); j++)
+                {
+                    if(graphMatrix[i][j] != 0)  //связи ОТ новой ноды
                     {
                         edge = new Edge();
                         refNode = new Node();
@@ -57,8 +90,7 @@ namespace Graphs.Graph
                         edges.Add(edge);
                     }
                 }
-
-                AddItem(nodeValue, edges);
+                node.Edges = edges;
             }
         }
 
@@ -126,7 +158,7 @@ namespace Graphs.Graph
             int[,] graphMatrix = new int[_nodesList.Count+1, _nodesList.Count + 1];
 
             //Values
-            for (int i = 1; i < _nodesList.Count + 1; i++)
+            for (int i = 1; i < _nodesList.Count; i++)
             {
                 graphMatrix[i, 0] = _nodesList[i].Value;
                 graphMatrix[0, i] = _nodesList[i].Value;
