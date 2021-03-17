@@ -25,12 +25,10 @@ namespace Graphs.Graph
                     edge.Node = newNode;
                     edge.Weight = edges[i].Weight;
                     //нода есть в списке, не петля, в ноде еще не записана связь
-                    if (edges[i].Node.Value == _nodesList[j].Value)// && _nodesList[j] != newNode && !_nodesList[i].Edges.Contains(edge))
-                    {
-                        if(_nodesList[j] != newNode)
-                            if(!_nodesList[i].Edges.Contains(edge))
+                    if (edges[i].Node.Value == _nodesList[j].Value)
+                        if (_nodesList[j] != newNode)
+                            if (!_nodesList[i].Edges.Contains(edge))
                                 _nodesList[j].Edges.Add(edge);
-                    }
                 }
             }
         }
@@ -39,7 +37,6 @@ namespace Graphs.Graph
         /// <param name="graphMatrix">Матрица связей.</param>
         public void AddItem(int[][] graphMatrix)
         {
-            Node refNode;
             Edge edge;
             List<Edge> edges;
 
@@ -91,30 +88,24 @@ namespace Graphs.Graph
             }
         }
 
-        /// <summary>Найти ноду по значению.</summary>
-        /// <param name="value">Искомое значение.</param>
-        /// <returns>Найденная нода.</returns>
-        public Node GetNodeByValue(int value)
-        {
-            Node node = SearchBFS(value);
-            return node;
-        }
-
         /// <summary>Поиск в ширину (BFS).</summary>
         /// <param name="value">Значение искомой ноды.</param>
         /// <returns>Найденная нода или null.</returns>
-        private Node SearchBFS(int value)
+        public Node SearchBFS(int value, int startNode)
         {
             if (_nodesList.Count == 0) return null;
 
-            //очередь сделана через лист, чтобы не делать отдельный массив для проверенных нод
+            //"очередь" сделана через лист, чтобы не делать отдельный массив для проверенных нод
             List <Node> checkList = new List<Node>();
             int index = 0;
             Node node;
+            checkList.Add(_nodesList[startNode]);
 
             do
             {
                 node = checkList[index];
+                index++;
+
                 if (node.Value == value)
                 {
                     FoundNode(node, "BFS");
@@ -123,10 +114,14 @@ namespace Graphs.Graph
 
                 foreach(Edge edge in node.Edges)
                 {
-                    if(!checkList.Contains(edge.Node))
+                    if (!checkList.Contains(edge.Node))
+                    {
                         checkList.Add(edge.Node);
+                    }
                 }
-            } while (index <= checkList.Count);
+            } while (index < checkList.Count);
+
+            PrintSearchProcess(checkList, "BFS");
 
             return node;
         }
@@ -142,6 +137,52 @@ namespace Graphs.Graph
                 Console.WriteLine("{0}: {1}", searchType, node.Value);
         }
 
+        /// <summary>Поиск в глубину (DFS).</summary>
+        /// <param name="value">Значение искомой ноды.</param>
+        /// <returns>Найденная нода или null.</returns>
+        public Node SearchDFS(int value, int startNode)
+        {
+            if (_nodesList.Count == 0) return null;
+
+            List<Node> checkList = new List<Node>();
+            Stack<Node> stack = new Stack<Node>();
+            Node node = _nodesList[startNode];
+
+            node = DFS(node, value, ref checkList);
+
+            PrintSearchProcess(checkList, "DFS");
+
+            return node;
+        }
+
+        private Node DFS(Node node, int value, ref List<Node> checkList)
+        {
+            if (node.Value == value)
+                return node;
+
+            Node foundNode = new Node();
+            checkList.Add(node);
+            foreach(Edge edge in node.Edges)
+            {
+                if(!checkList.Contains(edge.Node))
+                    foundNode = DFS(edge.Node, value, ref checkList);
+            }
+            return foundNode;
+        }
+
+        private void PrintSearchProcess(List<Node> checkList, string searchMethod)
+        {
+            string printStr = searchMethod + ":  ";
+            foreach(Node n in checkList)
+            {
+                printStr += n.Value + " ";
+
+                if (n != checkList[checkList.Count - 1])
+                    printStr += "-> ";
+            }
+            Console.WriteLine(printStr);
+        }
+
         /// <summary>Получить список нод.</summary>
         /// <returns>Список нод.</returns>
         public List<Node> GetNodesList()
@@ -152,44 +193,73 @@ namespace Graphs.Graph
         /// <summary>Вывести матрицу связей.</summary>
         public void PrintGraphMatrix()
         {
-            int[,] graphMatrix = new int[_nodesList.Count + 1, _nodesList.Count + 1];
-
-            //Values
-            for (int i = 0; i < _nodesList.Count; i++)
-            {
-                graphMatrix[i+1, 0] = _nodesList[i].Value;
-                graphMatrix[0, i+1] = _nodesList[i].Value;
-            }
-            //Weight
-            Node node;
-            for (int i = 0; i < _nodesList.Count-1; i++)  //ноды, для которой прописываются связи
-            {
-                if (_nodesList[i].Edges.Count == 0)
-                    continue;
-                foreach(Edge e in _nodesList[i].Edges)
-                {
-                    graphMatrix[i + 1, e.Node.Value + 1] = e.Weight;
-                    graphMatrix[e.Node.Value + 1, i + 1] = e.Weight;
-                }
-            }
+            int[,] graphMatrix = GetConnectivityMatrix();
 
             for (int i = 0; i < graphMatrix.GetLength(0); i++)
             {
                 string printStr = string.Empty;
                 for (int j = 0; j < graphMatrix.GetLength(1); j++)
                 {
-                    printStr += graphMatrix[i, j] + "  ";
+                    string space = string.Empty;
+                    if (i != 0)
+                        space = new string(' ', 2);
+                    else
+                        space = new string(' ', 2 - (j.ToString().Length - 1));
+
+                    if(j == 0 && i > 10)
+                        space = new string(' ', 5);
+                    else if(j == 0 && i < 11)
+                        space = new string(' ', 6);
+
+                    if (i != 0 && j != 0 && graphMatrix[i, j] != 0)
+                        Console.ForegroundColor = ConsoleColor.Red;
+
+                    Console.Write(graphMatrix[i, j] + space);
+
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    if (i == 0 && j == 0)
+                        printStr = " " + space;
                 }
                 Console.WriteLine(printStr);
+                if(i == 0)
+                    Console.WriteLine();
             }
-            
+        }
+
+        /// <summary>Получить матрицу связностей из списка нод.</summary>
+        /// <returns>Матрица связностей в виде двумерного массива.</returns>
+        private int[,] GetConnectivityMatrix()
+        {
+            int[,] graphMatrix = new int[_nodesList.Count + 1, _nodesList.Count + 1];
+
+            //Values
+            for (int i = 0; i < _nodesList.Count; i++)
+            {
+                graphMatrix[i + 1, 0] = _nodesList[i].Value;
+                graphMatrix[0, i + 1] = _nodesList[i].Value;
+            }
+
+            //Weight
+            for (int i = 0; i < _nodesList.Count - 1; i++)  //ноды, для которой прописываются связи
+            {
+                if (_nodesList[i].Edges.Count == 0)
+                    continue;
+                foreach (Edge e in _nodesList[i].Edges)
+                {
+                    graphMatrix[i + 1, e.Node.Value + 1] = e.Weight;
+                    graphMatrix[e.Node.Value + 1, i + 1] = e.Weight;
+                }
+            }
+
+            return graphMatrix;
         }
 
         /// <summary>Удалить ноду.</summary>
         /// <param name="value">Значение удаляемой ноды.</param>
         public void RemoveItem(int value)
         {
-            Node node = SearchBFS(value);
+            Node node = SearchBFS(value, 0);
             if (node != null)
             {
                 foreach(Edge edge in node.Edges)
@@ -202,7 +272,6 @@ namespace Graphs.Graph
                             refNode.Edges.Remove(edge1);
                             break;
                         }
-                            
                     }
                 }
             }
