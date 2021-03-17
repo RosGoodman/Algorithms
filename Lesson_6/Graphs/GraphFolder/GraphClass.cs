@@ -97,7 +97,7 @@ namespace Graphs.Graph
 
             Queue<Node> queue = new Queue<Node>();
             List <Node> checkList = new List<Node>();
-            int index = 0;
+            //int index = 0;
             Node node;
             queue.Enqueue(_nodesList[startNode]);
             checkList.Add(_nodesList[startNode]);
@@ -119,7 +119,10 @@ namespace Graphs.Graph
                         checkList.Add(edge.Node);
                     }
                 }
-            } while (index < checkList.Count);
+
+                if (queue.Count == 0)
+                    node = null;
+            } while (0 < queue.Count);
 
             PrintSearchProcess(checkList, "BFS");
 
@@ -273,6 +276,17 @@ namespace Graphs.Graph
                         }
                     }
                 }
+            }
+
+            //удаление из списка нод
+            foreach(Node n in _nodesList)
+            {
+                if (n.Value == value)
+                {
+                    _nodesList.Remove(n);
+                    break;
+                }
+                    
             }
         }
     }
