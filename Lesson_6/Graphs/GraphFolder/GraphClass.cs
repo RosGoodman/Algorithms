@@ -95,20 +95,19 @@ namespace Graphs.Graph
         {
             if (_nodesList.Count == 0) return null;
 
-            //"очередь" сделана через лист, чтобы не делать отдельный массив для проверенных нод
+            Queue<Node> queue = new Queue<Node>();
             List <Node> checkList = new List<Node>();
             int index = 0;
             Node node;
+            queue.Enqueue(_nodesList[startNode]);
             checkList.Add(_nodesList[startNode]);
 
             do
             {
-                node = checkList[index];
-                index++;
+                node = queue.Dequeue();
 
                 if (node.Value == value)
                 {
-                    FoundNode(node, "BFS");
                     break;
                 }
 
@@ -116,6 +115,7 @@ namespace Graphs.Graph
                 {
                     if (!checkList.Contains(edge.Node))
                     {
+                        queue.Enqueue(edge.Node);
                         checkList.Add(edge.Node);
                     }
                 }
@@ -124,17 +124,6 @@ namespace Graphs.Graph
             PrintSearchProcess(checkList, "BFS");
 
             return node;
-        }
-
-        /// <summary>Вывести результаты.</summary>
-        /// <param name="node">Найденная нода или null.</param>
-        /// <param name="searchType">Тип поиска.</param>
-        private void FoundNode(Node node, string searchType)
-        {
-            if (node == null)
-                Console.WriteLine("{0}: Узел с таким значение не найден.");
-            else
-                Console.WriteLine("{0}: {1}", searchType, node.Value);
         }
 
         /// <summary>Поиск в глубину (DFS).</summary>
@@ -155,21 +144,31 @@ namespace Graphs.Graph
             return node;
         }
 
+        /// <summary>Рекурсивный метод поиска в глубину.</summary>
+        /// <param name="node">Стартовая нода.</param>
+        /// <param name="value">Искомое значение.</param>
+        /// <param name="checkList">Список проверенных нод.</param>
+        /// <returns>Найденная нода или null.</returns>
         private Node DFS(Node node, int value, ref List<Node> checkList)
         {
             if (node.Value == value)
                 return node;
 
-            Node foundNode = new Node();
+            Node foundNode = null;
             checkList.Add(node);
             foreach(Edge edge in node.Edges)
             {
                 if(!checkList.Contains(edge.Node))
                     foundNode = DFS(edge.Node, value, ref checkList);
+                if (foundNode != null)
+                    break;
             }
             return foundNode;
         }
 
+        /// <summary>Вывод в консоль процесса поиска.</summary>
+        /// <param name="checkList">Последовательный список проверенных нод.</param>
+        /// <param name="searchMethod">Наименование метода поиска.</param>
         private void PrintSearchProcess(List<Node> checkList, string searchMethod)
         {
             string printStr = searchMethod + ":  ";

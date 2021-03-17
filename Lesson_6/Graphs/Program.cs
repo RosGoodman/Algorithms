@@ -28,8 +28,8 @@ namespace Graphs
             graph.PrintGraphMatrix();
 
             Console.WriteLine();
-            graph.SearchBFS(13, 4);
-            graph.SearchDFS(13, 4);
+            graph.SearchBFS(14, 4);
+            graph.SearchDFS(14, 4);
 
             Console.ReadLine();
         }
