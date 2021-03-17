@@ -15,8 +15,13 @@ namespace Task_1
             {
                 if (map[j - 1, 0] == "1" && map[j, 0] != "X")
                     map[j, 0] = "1";
+                else if(map[j - 1, 0] == null)
+                    map[j, 0] = "";
+
                 if (map[0, j - 1] == "1" && map[0, j] != "X")
                     map[0, j] = "1";
+                else if (map[0, j] == null)
+                    map[0, j] = "";
             }
 
             for (int i = 1; i < map.GetLength(0); i++)
