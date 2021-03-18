@@ -37,6 +37,11 @@ namespace Task_1
             {
                 if (array[i] < array[end]) //array[end] is pivot
                 {
+
+                    /////////////////////////////////////////////////////////////////////////
+                    ///TODO: протестить скорость при выносе перестановки в отдельный метод (DRY)
+                    /////////////////////////////////////////////////////////////////////////
+                    
                     temp = array[marker]; // swap
                     array[marker] = array[i];
                     array[i] = temp;
@@ -56,7 +61,7 @@ namespace Task_1
 
         /// <summary>Сортировать массив (пирамидальная сортировка).</summary>
         /// <param name="arr"></param>
-        public void Sort(int[] arr)
+        public void HeapSort(int[] arr)
         {
             int length = arr.Length;
 
@@ -103,9 +108,22 @@ namespace Task_1
                 arr[i] = arr[largest];
                 arr[largest] = swap;
 
+                PrintArr(arr);
+
                 // Рекурсивно преобразуем в двоичную кучу затронутое поддерево
                 Heapify(arr, count, largest);
             }
+            PrintArr(arr);
+        }
+
+        private void PrintArr(int[] array)
+        {
+            string str = string.Empty;
+            for (int i = 0; i < array.Length; i++)
+            {
+                str += array[i] + " ";
+            }
+            Console.WriteLine(str);
         }
 
         #endregion
