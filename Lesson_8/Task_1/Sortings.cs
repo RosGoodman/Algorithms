@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Task_1
 {
@@ -11,7 +10,7 @@ namespace Task_1
         /// <param name="array">Сортируемый массив.</param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        public void Quicksort(int[] array, int start, int end)
+        public static void Quicksort(int[] array, int start, int end)
         {
             if (start >= end)
             {
@@ -29,9 +28,9 @@ namespace Task_1
         /// <param name="end">Конец сортируемой части массива, так же индекс числа относительно которого
         /// происходит сортировка.</param>
         /// <returns>Следующая относительная точка сортировки.</returns>
-        private int Partition(int[] array, int start, int end)
+        private static int Partition(int[] array, int start, int end)
         {
-            int temp;//swap helper
+            int temp;
             int marker = start;//divides left and right subarrays
             for (int i = start; i < end; i++)
             {
@@ -61,7 +60,7 @@ namespace Task_1
 
         /// <summary>Сортировать массив (пирамидальная сортировка).</summary>
         /// <param name="arr"></param>
-        public void HeapSort(int[] arr)
+        public static void HeapSort(int[] arr)
         {
             int length = arr.Length;
 
@@ -86,7 +85,7 @@ namespace Task_1
         /// <param name="arr">Преобразуемый массив (поддерево).</param>
         /// <param name="count">Размер кучи.</param>
         /// <param name="i">Индекс корневого узла.</param>
-        private void Heapify(int[] arr, int count, int i)
+        private static void Heapify(int[] arr, int count, int i)
         {
             int largest = i;
             // Инициализируем наибольший элемент как корень
@@ -108,22 +107,50 @@ namespace Task_1
                 arr[i] = arr[largest];
                 arr[largest] = swap;
 
-                PrintArr(arr);
-
                 // Рекурсивно преобразуем в двоичную кучу затронутое поддерево
                 Heapify(arr, count, largest);
             }
-            PrintArr(arr);
         }
 
-        private void PrintArr(int[] array)
+        //private static void PrintArr(int[] array)
+        //{
+        //    string str = string.Empty;
+        //    for (int i = 0; i < array.Length; i++)
+        //    {
+        //        str += array[i] + " ";
+        //    }
+        //    Console.WriteLine(str);
+        //}
+
+        #endregion
+
+        #region Insertion sort
+
+        //сортировка вставками
+        public static int[] InsertionSort(int[] array)
         {
-            string str = string.Empty;
-            for (int i = 0; i < array.Length; i++)
+            for (var i = 1; i < array.Length; i++)
             {
-                str += array[i] + " ";
+                var key = array[i];
+                var j = i;
+                while ((j > 0) && (array[j - 1] > key))
+                {
+                    Swap(ref array[j - 1], ref array[j]);
+                    j--;
+                }
+
+                array[j] = key;
             }
-            Console.WriteLine(str);
+
+            return array;
+        }
+
+        //метод обмена элементов
+        private static void Swap(ref int e1, ref int e2)
+        {
+            var temp = e1;
+            e1 = e2;
+            e2 = temp;
         }
 
         #endregion
