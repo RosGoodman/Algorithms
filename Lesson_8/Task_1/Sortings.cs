@@ -8,8 +8,9 @@ namespace Task_1
 
         /// <summary>Сортировать массив (сортировка Хоара).</summary>
         /// <param name="array">Сортируемый массив.</param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">Точка старта.</param>
+        /// <param name="end">Конец сортируемой части массива, так же индекс числа относительно которого
+        /// происходит сортировка.</param>
         public static void Quicksort(int[] array, int start, int end)
         {
             if (start >= end)
@@ -145,16 +146,149 @@ namespace Task_1
             return array;
         }
 
-        //метод обмена элементов
+        #endregion
+
+        #region Shell sort
+
+        /// <summary>Сортировка Шелла.</summary>
+        /// <param name="array">Сортируемый массив.</param>
+        /// <returns>Отсортированный массив.</returns>
+        public static int[] ShellSort(int[] array)
+        {
+            //расстояние между элементами, которые сравниваются
+            var d = array.Length / 2;
+            while (d >= 1)
+            {
+                for (var i = d; i < array.Length; i++)
+                {
+                    var j = i;
+                    while ((j >= d) && (array[j - d] > array[j]))
+                    {
+                        Swap(ref array[j], ref array[j - d]);
+                        j = j - d;
+                    }
+                }
+
+                d = d / 2;
+            }
+
+            return array;
+        }
+
+        #endregion
+
+        #region Merge Sort
+
+        /// <summary>Сортировка слиянием.</summary>
+        /// <param name="array">Сортируемый массив.</param>
+        /// <returns>Отсортированный массив.</returns>
+        public static int[] MergeSort(int[] array)
+        {
+            return MergeSort(array, 0, array.Length - 1);
+        }
+
+
+        private static int[] MergeSort(int[] array, int lowIndex, int highIndex)
+        {
+            if (lowIndex < highIndex)
+            {
+                if (highIndex - lowIndex == 1)
+                {
+                    if (array[highIndex] < array[lowIndex])
+                    {
+                        var t = array[lowIndex];
+                        array[lowIndex] = array[highIndex];
+                        array[highIndex] = t;
+                    }
+                }
+                else
+                {
+                    var middleIndex = (lowIndex + highIndex) / 2;
+                    MergeSort(array, lowIndex, middleIndex);
+                    MergeSort(array, middleIndex + 1, highIndex);
+                    Merge(array, lowIndex, middleIndex, highIndex);
+                }
+            }
+
+            return array;
+        }
+
+        private static void Merge(int[] array, int lowIndex, int middleIndex, int highIndex)
+        {
+            var left = lowIndex;
+            var right = middleIndex + 1;
+            var tempArray = new int[highIndex - lowIndex + 1];
+            var index = 0;
+
+            while ((left <= middleIndex) && (right <= highIndex))
+            {
+                if (array[left] < array[right])
+                {
+                    tempArray[index] = array[left];
+                    left++;
+                }
+                else
+                {
+                    tempArray[index] = array[right];
+                    right++;
+                }
+
+                index++;
+            }
+
+            for (var i = left; i <= middleIndex; i++)
+            {
+                tempArray[index] = array[i];
+                index++;
+            }
+
+            for (var i = right; i <= highIndex; i++)
+            {
+                tempArray[index] = array[i];
+                index++;
+            }
+
+            for (var i = 0; i < tempArray.Length; i++)
+            {
+                array[lowIndex + i] = tempArray[i];
+            }
+        }
+
+        #endregion
+
+        #region Counting sort
+
+        /// <summary>Сортировка подсчетом.</summary>
+        /// <param name="array">Сортируемый массив.</param>
+        /// <param name="count">Размер массива.</param>
+        /// <param name="max">Максимальное значение.</param>
+        public static void CountingSort(int[] array, int count, int max) 
+        {
+            int[] countArray = new int[max+1];
+
+            for (int i = 0; i < array.Length; i++)
+                countArray[array[i]]++;
+
+            var b = 0;
+            for (int j = 0; j < countArray.Length; j++)
+            {
+                for (int i = 0; i < countArray[j]; i++)
+                {
+                    array[b++] = j;
+                }
+            }
+        }
+
+        #endregion
+
+        /// <summary>Метод обмена элементов.</summary>
+        /// <param name="e1">Элемент 1.</param>
+        /// <param name="e2">Элемент 2.</param>
         private static void Swap(ref int e1, ref int e2)
         {
             var temp = e1;
             e1 = e2;
             e2 = temp;
         }
-
-        #endregion
-
-
     }
 }
