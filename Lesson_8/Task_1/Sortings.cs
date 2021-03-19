@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Task_1
 {
@@ -275,6 +275,65 @@ namespace Task_1
                 for (int i = 0; i < countArray[j]; i++)
                 {
                     array[b++] = j;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Bucket sort
+
+        /// <summary>Блочная сортировка.</summary>
+        /// <param name="array">Сортируемый массив.</param>
+        public static void BucketSort(int[] array)
+        {
+            if (array == null || array.Length < 2)
+                return;
+
+            int max = array[0];
+            int min = array[0];
+
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (array[i] > max)
+                    max = array[i];
+
+                if (array[i] < min)
+                    min = array[i];
+            }
+
+            // Создание временного массива "карманов" в количестве,
+            // достаточном для хранения всех возможных элементов,
+            // чьи значения лежат в диапазоне между minValue и maxValue.
+            // Т.е. для каждого элемента массива выделяется "карман" List<int>.
+            // При заполнении данных "карманов" элементы исходного не отсортированного массива
+            // будут размещаться в порядке возрастания собственных значений "слева направо".
+
+            List<int>[] bucket = new List<int>[max - min + 1];
+
+            for (int i = 0; i < bucket.Length; i++)
+            {
+                bucket[i] = new List<int>();
+            }
+
+            // Занесение значений в пакеты
+            for (int i = 0; i < array.Length; i++)
+            {
+                bucket[array[i] - min].Add(array[i]);
+            }
+
+            // Восстановление элементов в исходный массив
+            // из карманов в порядке возрастания значений
+            int position = 0;
+            for (int i = 0; i < bucket.Length; i++)
+            {
+                if (bucket[i].Count > 0)
+                {
+                    for (int j = 0; j < bucket[i].Count; j++)
+                    {
+                        array[position] = bucket[i][j];
+                        position++;
+                    }
                 }
             }
         }

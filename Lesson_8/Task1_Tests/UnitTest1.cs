@@ -340,5 +340,60 @@ namespace Task1_Tests
         }
 
         #endregion
+
+        #region Bucket sort tests
+
+        [TestMethod]
+        public void BucketSort_Test()
+        {
+            //Arrange
+            bool sorted = true;
+            int count = 10000;
+            int max = 50000;
+            int min = 0;
+
+            //Act
+            int[] array = RandomArray.GetRandomArray(count, min, max);
+            Sortings.BucketSort(array);
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                if (array[i] > array[i + 1])
+                {
+                    sorted = false;
+                    break;
+                }
+            }
+
+            //Assert
+            Assert.AreEqual(true, sorted);
+        }
+
+        [TestMethod]
+        public void BucketSort_OneValue_Test()
+        {
+            //Arrange
+            bool sorted = true;
+            int count = 1;
+            int max = 1;
+            int min = 1;
+
+            //Act
+            int[] array = RandomArray.GetRandomArray(count, min, max);
+            Sortings.BucketSort(array);
+
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                if (array[i] > array[i + 1])
+                {
+                    sorted = false;
+                    break;
+                }
+            }
+
+            //Assert
+            Assert.AreEqual(true, sorted);
+        }
+
+        #endregion
     }
 }
