@@ -150,6 +150,9 @@ namespace Task_1
 
         #region Shell sort
 
+        /// <summary>Сортировка Шелла.</summary>
+        /// <param name="array">Сортируемый массив.</param>
+        /// <returns>Отсортированный массив.</returns>
         public static int[] ShellSort(int[] array)
         {
             //расстояние между элементами, которые сравниваются
@@ -259,17 +262,17 @@ namespace Task_1
         /// <param name="array">Сортируемый массив.</param>
         /// <param name="count">Размер массива.</param>
         /// <param name="max">Максимальное значение.</param>
-        public static void SimpleCountingSort(int[] array, int count, int max) 
+        public static void CountingSort(int[] array, int count, int max) 
         {
-            int[] countArray = new int[max];
+            int[] countArray = new int[max+1];
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < array.Length; i++)
                 countArray[array[i]]++;
 
             var b = 0;
-            for (int j = 0; j < count; j++)
+            for (int j = 0; j < countArray.Length; j++)
             {
-                for (int i = 0; i < countArray[j] - 1; i++)
+                for (int i = 0; i < countArray[j]; i++)
                 {
                     array[b++] = j;
                 }
