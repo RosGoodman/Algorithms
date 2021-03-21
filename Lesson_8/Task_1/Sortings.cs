@@ -37,21 +37,11 @@ namespace Task_1
             {
                 if (array[i] < array[end]) //array[end] is pivot
                 {
-
-                    /////////////////////////////////////////////////////////////////////////
-                    ///TODO: протестить скорость при выносе перестановки в отдельный метод (DRY)
-                    /////////////////////////////////////////////////////////////////////////
-                    
-                    temp = array[marker]; // swap
-                    array[marker] = array[i];
-                    array[i] = temp;
+                    Swap(ref array[marker], ref array[i]);
                     marker += 1;
                 }
             }
-            //put pivot(array[end]) between left and right subarrays
-            temp = array[marker];
-            array[marker] = array[end];
-            array[end] = temp;
+            Swap(ref array[marker], ref array[end]);
             return marker;
         }
 
@@ -60,33 +50,31 @@ namespace Task_1
         #region Heap sort
 
         /// <summary>Сортировать массив (пирамидальная сортировка).</summary>
-        /// <param name="arr"></param>
-        public static void HeapSort(int[] arr)
+        /// <param name="array"></param>
+        public static void HeapSort(int[] array)
         {
-            int length = arr.Length;
+            int length = array.Length;
 
             // Построение кучи (перегруппируем массив)
             for (int i = length / 2 - 1; i >= 0; i--)
-                Heapify(arr, length, i);
+                Heapify(array, length, i);
 
             // Один за другим извлекаем элементы из кучи
             for (int i = length - 1; i >= 0; i--)
             {
                 // Перемещаем текущий корень в конец
-                int temp = arr[0];
-                arr[0] = arr[i];
-                arr[i] = temp;
+                Swap(ref array[0], ref array[i]);
 
                 // вызываем процедуру heapify на уменьшенной куче
-                Heapify(arr, i, 0);
+                Heapify(array, i, 0);
             }
         }
 
         /// <summary>Преобразование в двоичную кучу поддерева.</summary>
-        /// <param name="arr">Преобразуемый массив (поддерево).</param>
+        /// <param name="array">Преобразуемый массив (поддерево).</param>
         /// <param name="count">Размер кучи.</param>
         /// <param name="i">Индекс корневого узла.</param>
-        private static void Heapify(int[] arr, int count, int i)
+        private static void Heapify(int[] array, int count, int i)
         {
             int largest = i;
             // Инициализируем наибольший элемент как корень
@@ -94,41 +82,29 @@ namespace Task_1
             int r = 2 * i + 2; // right = 2*i + 2
 
             // Если левый дочерний элемент больше корня
-            if (l < count && arr[l] > arr[largest])
+            if (l < count && array[l] > array[largest])
                 largest = l;
 
             // Если правый дочерний элемент больше, чем самый большой элемент на данный момент
-            if (r < count && arr[r] > arr[largest])
+            if (r < count && array[r] > array[largest])
                 largest = r;
 
             // Если самый большой элемент не корень
             if (largest != i)
             {
-                int swap = arr[i];
-                arr[i] = arr[largest];
-                arr[largest] = swap;
+                Swap(ref array[i], ref array[largest]);
 
                 // Рекурсивно преобразуем в двоичную кучу затронутое поддерево
-                Heapify(arr, count, largest);
+                Heapify(array, count, largest);
             }
         }
-
-        //private static void PrintArr(int[] array)
-        //{
-        //    string str = string.Empty;
-        //    for (int i = 0; i < array.Length; i++)
-        //    {
-        //        str += array[i] + " ";
-        //    }
-        //    Console.WriteLine(str);
-        //}
 
         #endregion
 
         #region Insertion sort
 
         //сортировка вставками
-        public static int[] InsertionSort(int[] array)
+        public static void InsertionSort(int[] array)
         {
             for (var i = 1; i < array.Length; i++)
             {
@@ -142,8 +118,6 @@ namespace Task_1
 
                 array[j] = key;
             }
-
-            return array;
         }
 
         #endregion
@@ -153,7 +127,7 @@ namespace Task_1
         /// <summary>Сортировка Шелла.</summary>
         /// <param name="array">Сортируемый массив.</param>
         /// <returns>Отсортированный массив.</returns>
-        public static int[] ShellSort(int[] array)
+        public static void ShellSort(int[] array)
         {
             //расстояние между элементами, которые сравниваются
             var d = array.Length / 2;
@@ -171,8 +145,6 @@ namespace Task_1
 
                 d = d / 2;
             }
-
-            return array;
         }
 
         #endregion
@@ -182,13 +154,13 @@ namespace Task_1
         /// <summary>Сортировка слиянием.</summary>
         /// <param name="array">Сортируемый массив.</param>
         /// <returns>Отсортированный массив.</returns>
-        public static int[] MergeSort(int[] array)
+        public static void MergeSort(int[] array)
         {
-            return MergeSort(array, 0, array.Length - 1);
+            MergeSort(array, 0, array.Length - 1);
         }
 
 
-        private static int[] MergeSort(int[] array, int lowIndex, int highIndex)
+        public static void MergeSort(int[] array, int lowIndex, int highIndex)
         {
             if (lowIndex < highIndex)
             {
@@ -196,9 +168,7 @@ namespace Task_1
                 {
                     if (array[highIndex] < array[lowIndex])
                     {
-                        var t = array[lowIndex];
-                        array[lowIndex] = array[highIndex];
-                        array[highIndex] = t;
+                        Swap(ref array[lowIndex], ref array[highIndex]);
                     }
                 }
                 else
@@ -209,8 +179,6 @@ namespace Task_1
                     Merge(array, lowIndex, middleIndex, highIndex);
                 }
             }
-
-            return array;
         }
 
         private static void Merge(int[] array, int lowIndex, int middleIndex, int highIndex)
@@ -260,9 +228,8 @@ namespace Task_1
 
         /// <summary>Сортировка подсчетом.</summary>
         /// <param name="array">Сортируемый массив.</param>
-        /// <param name="count">Размер массива.</param>
         /// <param name="max">Максимальное значение.</param>
-        public static void CountingSort(int[] array, int count, int max) 
+        public static void CountingSort(int[] array, int max) 
         {
             int[] countArray = new int[max+1];
 

@@ -299,7 +299,7 @@ namespace Task1_Tests
 
             //Act
             int[] array = RandomArray.GetRandomArray(count, min, max);
-            Sortings.CountingSort(array, array.Length, max);
+            Sortings.CountingSort(array, max);
             for (int i = 0; i < array.Length - 1; i++)
             {
                 if (array[i] > array[i + 1])
@@ -324,7 +324,7 @@ namespace Task1_Tests
 
             //Act
             int[] array = RandomArray.GetRandomArray(count, min, max);
-            Sortings.CountingSort(array, array.Length, max);
+            Sortings.CountingSort(array, max);
 
             for (int i = 0; i < array.Length - 1; i++)
             {
