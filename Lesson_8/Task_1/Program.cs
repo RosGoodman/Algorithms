@@ -6,9 +6,12 @@ namespace Task_1
     {
         static void Main(string[] args)
         {
-            string fileName = "Data.bin";
+            string fileName = "Data.txt";
+            CreateBigRandomFile.CreateFile(fileName);
             CreateBigRandomFile.OutputData(fileName);
-            CreateBigRandomFile.Split(fileName);
+            ExternalSortClass.ExternalSort(fileName);
+
+            CreateBigRandomFile.OutputData("BigFileSorted.txt");
 
             Console.Read();
         }

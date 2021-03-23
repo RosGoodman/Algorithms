@@ -9,17 +9,21 @@ namespace Task_1
         /// <param name="fileName"></param>
         public static void CreateFile(string fileName)
         {
-            using (BinaryWriter bw = new BinaryWriter(File.Create(fileName, 65536)))
+            int numb;
+            using (StreamWriter bw = new StreamWriter(File.Create(fileName, 65536)))
             {
                 Random rnd = new Random();
-                for (int i = 0; i < 256000000; i++)
+                for (int i = 0; i < 256000; i++)
                 {
-                    bw.Write(rnd.Next(0, 256000000));
+                    numb = rnd.Next(0, 256000000);
+                    bw.WriteLine(numb);
                 }
             }
         }
 
-        public static void OutputData(string file) // вывод первых 100 чисел для проверки
+        /// <summary>Вывести 100 первых чисел из файла.</summary>
+        /// <param name="file">Имя файла.</param>
+        public static void OutputData(string file)
         {
             using (BinaryReader br = new BinaryReader(File.OpenRead(file)))
             {
@@ -39,35 +43,6 @@ namespace Task_1
                 }
                 Console.WriteLine();
             }
-        }
-
-        public static void Split(string file)
-        {
-            int split_num = 1;
-            StreamWriter sw = new StreamWriter(string.Format("split{0:d5}.dat", split_num));
-            long read_line = 0;
-            using (StreamReader sr = new StreamReader(file))
-            {
-                while (sr.Peek() >= 0)
-                {
-                    // Progress reporting
-                    if (++read_line % 5000 == 0)
-                        Console.Write("{0:f2}%   \r", 100.0 * sr.BaseStream.Position / sr.BaseStream.Length);
-
-                    // Copy a line
-                    sw.WriteLine(sr.ReadLine());
-
-                    // If the file is big, then make a new split,
-                    // however if this was the last line then don't bother
-                    if (sw.BaseStream.Length > 100000000 && sr.Peek() >= 0)
-                    {
-                        sw.Close();
-                        split_num++;
-                        sw = new StreamWriter(string.Format("split{0:d5}.dat", split_num));
-                    }
-                }
-            }
-            sw.Close();
         }
     }
 }

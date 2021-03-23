@@ -31,7 +31,6 @@ namespace Task_1
         /// <returns>Следующая относительная точка сортировки.</returns>
         private static int Partition(int[] array, int start, int end)
         {
-            int temp;
             int marker = start;//divides left and right subarrays
             for (int i = start; i < end; i++)
             {
@@ -139,11 +138,11 @@ namespace Task_1
                     while ((j >= d) && (array[j - d] > array[j]))
                     {
                         Swap(ref array[j], ref array[j - d]);
-                        j = j - d;
+                        j -= d;
                     }
                 }
 
-                d = d / 2;
+                d /= 2;
             }
         }
 
